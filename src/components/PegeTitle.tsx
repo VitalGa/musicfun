@@ -1,3 +1,3 @@
-export const PegeTitle = () => {
-  return <div>PegeTitle</div>;
-};
+export function PageTitle() {
+  return <h1>Musicfun</h1>;
+}
