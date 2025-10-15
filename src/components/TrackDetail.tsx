@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 
-export function TrackDetail() {
-  const [selectedTrack, setSelectedTrack] = useState(0);
-  const selectedTrackId = '88133ec1-f82d-4fbb-b53b-5138b6fc7b90';
+export function TrackDetail({ selectedTrackId }: { selectedTrackId: any }) {
+  const [selectedTrack, setSelectedTrack] = useState(null);
 
   useEffect(() => {
     if (!selectedTrackId) {

@@ -1,20 +1,28 @@
 import { useEffect, useState } from 'react';
 
-export function TrackList() {
-  const [tracks, setTracks] = useState(null);
-  const [selectedTrackId, setSelectedTrackId] = useState(null);
+export function TrackList({
+  tracks,
+  onSelectTrackId,
+  selectedTrackId,
+}: {
+  tracks: any;
+  onSelectTrackId: any;
+  selectedTrackId: any;
+}) {
+  // const [tracks, setTracks] = useState(null);
+  // const [selectedTrackId, setSelectedTrackId] = useState(null);
 
-  useEffect(() => {
-    console.log('effect');
+  // useEffect(() => {
+  //   console.log('effect');
 
-    fetch('https://musicfun.it-incubator.app/api/1.0/playlists/tracks', {
-      headers: {
-        'api-key': '9f82562a-b652-40dc-a2a8-bb46f97f211b',
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => setTracks(json.data));
-  }, []);
+  //   fetch('https://musicfun.it-incubator.app/api/1.0/playlists/tracks', {
+  //     headers: {
+  //       'api-key': '9f82562a-b652-40dc-a2a8-bb46f97f211b',
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((json) => setTracks(json.data));
+  // }, []);
 
   if (tracks === null) {
     return (
@@ -36,7 +44,7 @@ export function TrackList() {
 
   return (
     <ul>
-      {tracks.map((track) => {
+      {tracks.map((track: any) => {
         return (
           <li
             key={track.id}
@@ -45,7 +53,10 @@ export function TrackList() {
             }}>
             <div
               onClick={() => {
-                setSelectedTrackId(track.id);
+                onSelectTrackId(track.id);
+              }}
+              style={{
+                cursor: 'pointer',
               }}>
               {track.attributes.title}
             </div>

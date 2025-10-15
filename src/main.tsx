@@ -1,25 +1,44 @@
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
-import { SideBarMenu } from './components/SideBarMenu';
+
 import { TrackList } from './components/TracksList';
 import { TrackDetail } from './components/TrackDetail';
 import { PageTitle } from './components/PegeTitle';
+import { useState, useEffect } from 'react';
 
 createRoot(document.getElementById('root')!).render(<MainPage />);
 
 function MainPage() {
+  const [tracks, setTracks] = useState(null);
+  const [selectedTrackId, setSelectedTrackId] = useState(null);
+
+  const onSelectTrackId = (trackId: any) => {
+    setSelectedTrackId(trackId);
+  };
+
+  useEffect(() => {
+    console.log('effect');
+
+    fetch('https://musicfun.it-incubator.app/api/1.0/playlists/tracks', {
+      headers: {
+        'api-key': '9f82562a-b652-40dc-a2a8-bb46f97f211b',
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => setTracks(json.data));
+  }, []);
+
   return (
     <div>
-      <Header />
-      <SideBarMenu />
       <PageTitle />
       <div style={{ display: 'flex', gap: '60px' }}>
-        <TrackList />
-        <TrackDetail />
+        <TrackList
+          tracks={tracks}
+          onSelectTrackId={onSelectTrackId}
+          selectedTrackId={selectedTrackId}
+        />
+        <TrackDetail selectedTrackId={selectedTrackId} />
       </div>
-      <Footer />
     </div>
   );
 }
