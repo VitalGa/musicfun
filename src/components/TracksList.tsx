@@ -1,16 +1,28 @@
-export function TrackList({
-  tracks,
-  onSelectTrackId,
-  selectedTrackId,
-}: {
-  tracks;
-  onSelectTrackId;
-  selectedTrackId;
-}) {
+import { useState, useEffect } from 'react';
+import { TrackItem, type TrackListItemResource } from './TrackItem';
+
+type Props = {
+  selectedTrackId: string | null;
+  onTrackSelect: (id: string | null) => void;
+};
+
+export function TrackList({ selectedTrackId, onTrackSelect }: Props) {
+  const [tracks, setTracks] = useState<Array<TrackListItemResource> | null>(null);
+
+  useEffect(() => {
+    console.log('effect');
+    fetch('https://musicfun.it-incubator.app/api/1.0/playlists/tracks', {
+      headers: {
+        'api-key': '9f82562a-b652-40dc-a2a8-bb46f97f211b',
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => setTracks(json.data));
+  }, []);
+
   if (tracks === null) {
     return (
       <div>
-        <h1>Musicfun</h1>
         <span>loading...</span>
       </div>
     );
@@ -19,34 +31,39 @@ export function TrackList({
   if (tracks.length === 0) {
     return (
       <div>
-        <h1>Musicfun</h1>
         <span>No tracks</span>
       </div>
     );
   }
 
+  const handlResetClick = () => {
+    onTrackSelect?.(null);
+  };
+
+  const handleClick = (trackId: string) => {
+    onTrackSelect?.(trackId);
+  };
+
+  const isSelected = (trackId: string) => {
+    return selectedTrackId === trackId;
+  };
+
   return (
-    <ul>
-      {tracks.map((track) => {
-        return (
-          <li
-            key={track.id}
-            style={{
-              border: track.id === selectedTrackId ? '1px solid orange' : 'none',
-            }}>
-            <div
-              onClick={() => {
-                onSelectTrackId(track.id);
-              }}
-              style={{
-                cursor: 'pointer',
-              }}>
-              {track.attributes.title}
-            </div>
-            <audio src={track.attributes.attachments[0].url} controls></audio>
-          </li>
-        );
-      })}
-    </ul>
+    <div>
+      <button onClick={handlResetClick}>Reset</button>
+      <hr />
+      <ul>
+        {tracks.map((track) => {
+          return (
+            <TrackItem
+              key={track.id}
+              track={track}
+              isSelected={isSelected(track.id)}
+              onSelect={handleClick}
+            />
+          );
+        })}
+      </ul>
+    </div>
   );
 }
