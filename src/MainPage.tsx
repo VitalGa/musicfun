@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { PageTitle } from './components/PegeTitle';
-import { TrackList } from './components/TracksList';
-import { TrackDetail } from './components/TrackDetail';
+import { PageTitle } from './ui/PegeTitle';
+import { TrackList } from './ui/TracksList';
+import { TrackDetail } from './ui/TrackDetail';
 
 export function MainPage() {
   const [trackId, setTrackId] = useState<string | null>(null);
