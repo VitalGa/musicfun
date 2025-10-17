@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getTracks, type TrackDetailsResource } from '../dal/api';
+import { getTrack, type TrackDetailsResource } from '../dal/api';
 
 type Props = {
   trackId: string | null;
@@ -14,7 +14,7 @@ export function TrackDetail({ trackId }: Props) {
       return;
     }
 
-    getTracks(trackId).then((json) => {
+    getTrack(trackId).then((json) => {
       setSelectedTrack(json.data);
     });
   }, [trackId]);
