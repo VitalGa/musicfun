@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { PageTitle } from './ui/PegeTitle';
+import { PageTitle } from './ui/PageTitle';
 import { TrackList } from './ui/TracksList';
 import { TrackDetail } from './ui/TrackDetail';
+import { useTrackSelection } from './bll/useTrackSelection';
 
 export function MainPage() {
-  const [trackId, setTrackId] = useState<string | null>(null);
+  const { trackId, setTrackId } = useTrackSelection();
 
   const handleTrackSelect = (id: string | null) => {
     setTrackId(id);
